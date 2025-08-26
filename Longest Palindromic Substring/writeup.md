@@ -1,6 +1,6 @@
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-This is my first solution. I thought that I will cut gradually the string and compare the cutted string with its reverse version.
+My first idea was to gradually cut substrings from the input string and compare each substring with its reversed version.
 # Code
 ```typescript []
 function reverseString(s: string): string {
@@ -22,10 +22,10 @@ function longestPalindrome(s: string): string {
 ```
 # Approach
 <!-- Describe your approach to solving the problem. -->
-I coded more reverse function. Its function is split the string to one array, then the array will be reversed and finally I used join function to connect all element in that array into one reversed string.
-I defined a while loop to check if range not equal 0, then it will execute another for loop inside the while loop. Inside the for loop, I will slice the string and use reverve function to compare them. If the result of comparition is equal, I will return that substring, because I cut gradually the string so it is the most large substring.
-But with longer input, it errorred with notification "Time limit exceeded".
-So I will implement another solution.
+I implemented a helper function reverseString. This function splits the string into an array of characters, reverses the array, and then joins it back into a reversed string.
+Next, I used a while loop with a decreasing range value. Inside the loop, a for loop slices substrings of length range and compares them with their reversed version. If a substring equals its reversed version, that substring is returned immediately, since the process checks longer substrings first.
+However, with longer inputs, this approach caused a "Time Limit Exceeded" error because it repeatedly generates substrings and reverses them, leading to high time complexity.
+Therefore, I implemented another solution.
 # Code
 ```typescript []
 
@@ -55,9 +55,13 @@ export function longestPalindrome(s: string): string {
 ```
 # Approach
 <!-- Describe your approach to solving the problem. -->
-Instead compare substring to compare pointer.
-I will define the expand function firstly. Function receive 2 param includes: left and right. It will compare 2 element right and left, if they are the same, continue expand 2 side by inscreasing the right side and descreasing the left side more 1 unit, if the process of expandation is fail, we will return previous values.
-Next, I will check that if the length of the string is a odd number, so it will have a center point, I will start check with the same left and right from the begin of the string to the end of it, if the length of the string is a even number, I will start check the left and right with distance 1 unit. The result of expand funtion will return a pair left and right that they are 2 side of a palindrome string, then check thelength of them, if more than the length of the best left and right, then I will assign new values to the best left and right
+Instead of comparing substrings with their reversed versions, I switched to comparing characters directly using the two-pointer expansion method.
+I defined an expand function that takes two parameters, left and right. It checks whether the characters at both ends are equal. If they match, it expands outward by decreasing left and increasing right. Once the expansion fails, it returns the previous valid range.
+To cover both odd- and even-length palindromes:
+- For odd-length palindromes, I expand with the same starting left and right index.
+- For even-length palindromes, I expand with right = left + 1.
+The returned ranges represent the longest palindromes around each center. If the length of a newly found palindrome is longer than the current best, I update the best left and right indices.
+Finally, I slice the string using these indices to return the longest palindrome.
 
 # Complexity
 - Time complexity:
